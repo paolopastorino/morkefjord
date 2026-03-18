@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en" class="lang-en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investigation Portal — Grønnvik Police</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* === PORTAL-SPECIFIC STYLES === */
+    :root {
+      --terminal-bg: #0C1821;
+      --terminal-surface: #132030;
+      --terminal-border: #1E3448;
+      --terminal-text: #C8D6E5;
+      --terminal-dim: #6B8299;
+      --terminal-accent: #3B8E8D;
+      --terminal-accent-dim: #2D6B6A;
+      --terminal-warn: #E2A04A;
+      --terminal-red: #C0392B;
+      --terminal-green: #27AE60;
+    }
+
+    .portal-body {
+      background: var(--terminal-bg);
+      min-height: 100vh;
+      color: var(--terminal-text);
+    }
+
+    .portal-nav {
+      background: var(--terminal-surface) !important;
+      border-bottom-color: var(--terminal-border) !important;
+      backdrop-filter: none !important;
+    }
+    .portal-nav .nav-logo a,
+    .portal-nav .nav-links a { color: var(--terminal-dim) !important; }
+    .portal-nav .nav-links a:hover { color: var(--terminal-text) !important; }
+    .portal-nav .nav-links a::after { background: var(--terminal-accent); }
+
+    .portal-header {
+      margin-top: 64px;
+      padding: 3rem 0 2rem;
+      border-bottom: 1px solid var(--terminal-border);
+      background: var(--terminal-surface);
+    }
+    .portal-header h1 {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--terminal-dim);
+      margin-bottom: 0.25rem;
+    }
+    .portal-header .portal-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: var(--terminal-text);
+    }
+    .portal-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--terminal-dim);
+    }
+    .portal-status .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--terminal-green);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Tabs */
+    .portal-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--terminal-border);
+      background: var(--terminal-surface);
+      padding: 0 2rem;
+    }
+    .portal-tab {
+      padding: 0.9rem 1.5rem;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--terminal-dim);
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .portal-tab:hover { color: var(--terminal-text); }
+    .portal-tab.active {
+      color: var(--terminal-accent);
+      border-bottom-color: var(--terminal-accent);
+    }
+
+    /* Content area */
+    .portal-content {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .portal-panel { display: none; }
+    .portal-panel.active { display: block; }
+
+    /* Setup screen */
+    .setup-screen {
+      max-width: 480px;
+      margin: 4rem auto;
+      text-align: center;
+    }
+    .setup-screen h2 {
+      color: var(--terminal-text);
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+    .setup-screen p {
+      color: var(--terminal-dim);
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    /* Forms */
+    .form-group {
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--terminal-dim);
+      margin-bottom: 0.4rem;
+    }
+    .form-input {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      background: var(--terminal-bg);
+      border: 1px solid var(--terminal-border);
+      border-radius: 4px;
+      color: var(--terminal-text);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--terminal-accent);
+    }
+    .form-input::placeholder { color: var(--terminal-dim); opacity: 0.5; }
+    textarea.form-input { min-height: 100px; resize: vertical; line-height: 1.6; }
+
+    .btn-portal {
+      display: inline-block;
+      padding: 0.7rem 1.8rem;
+      background: var(--terminal-accent);
+      color: var(--white);
+      border: none;
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-portal:hover { background: var(--terminal-accent-dim); transform: translateY(-1px); }
+    .btn-portal-outline {
+      display: inline-block;
+      padding: 0.7rem 1.8rem;
+      background: transparent;
+      color: var(--terminal-accent);
+      border: 1px solid var(--terminal-accent);
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-portal-outline:hover { background: rgba(59,142,141,0.1); }
+    .btn-danger {
+      background: transparent;
+      color: var(--terminal-red);
+      border: 1px solid var(--terminal-red);
+    }
+    .btn-danger:hover { background: rgba(192,57,43,0.1); }
+    .btn-sm { padding: 0.4rem 1rem; font-size: 0.78rem; }
+
+    /* Profile display */
+    .profile-card {
+      background: var(--terminal-surface);
+      border: 1px solid var(--terminal-border);
+      border-radius: 6px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .profile-badge {
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      color: var(--terminal-accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.25rem;
+    }
+    .profile-name {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--terminal-text);
+      margin-bottom: 0.25rem;
+    }
+    .profile-rank {
+      color: var(--terminal-dim);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    .profile-bio {
+      color: var(--terminal-dim);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      border-top: 1px solid var(--terminal-border);
+      padding-top: 1rem;
+    }
+    .profile-actions {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    /* Notes */
+    .notes-list { display: flex; flex-direction: column; gap: 1rem; }
+    .note-card {
+      background: var(--terminal-surface);
+      border: 1px solid var(--terminal-border);
+      border-left: 3px solid var(--terminal-accent);
+      border-radius: 0 6px 6px 0;
+      padding: 1.25rem;
+    }
+    .note-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .note-title {
+      font-weight: 500;
+      color: var(--terminal-text);
+      font-size: 1rem;
+    }
+    .note-date {
+      font-size: 0.75rem;
+      color: var(--terminal-dim);
+      font-family: 'Courier New', monospace;
+    }
+    .note-scene {
+      display: inline-block;
+      padding: 0.15rem 0.6rem;
+      background: rgba(59,142,141,0.15);
+      color: var(--terminal-accent);
+      border-radius: 3px;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+    }
+    .note-body {
+      color: var(--terminal-dim);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    .note-actions {
+      margin-top: 0.75rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .btn-ghost {
+      background: none;
+      border: none;
+      color: var(--terminal-dim);
+      font-size: 0.78rem;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      font-family: var(--font-body);
+    }
+    .btn-ghost:hover { color: var(--terminal-text); }
+    .btn-ghost.delete:hover { color: var(--terminal-red); }
+
+    /* Evidence board */
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .evidence-card {
+      background: var(--terminal-surface);
+      border: 1px solid var(--terminal-border);
+      border-radius: 6px;
+      padding: 1.25rem;
+    }
+    .evidence-card h4 {
+      font-family: var(--font-body);
+      font-weight: 500;
+      color: var(--terminal-text);
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+    .evidence-type {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--terminal-warn);
+      margin-bottom: 0.5rem;
+    }
+    .evidence-card p {
+      color: var(--terminal-dim);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .evidence-linked {
+      margin-top: 0.75rem;
+      font-size: 0.78rem;
+      color: var(--terminal-accent);
+    }
+
+    /* Empty states */
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--terminal-dim);
+    }
+    .empty-state h3 {
+      color: var(--terminal-dim);
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .empty-state p { font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+    /* New note form */
+    .note-form {
+      background: var(--terminal-surface);
+      border: 1px solid var(--terminal-border);
+      border-radius: 6px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      display: none;
+    }
+    .note-form.open { display: block; }
+    .note-form h3 {
+      color: var(--terminal-text);
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .form-actions {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    /* Data management */
+    .data-section {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--terminal-border);
+    }
+    .data-section h3 {
+      color: var(--terminal-dim);
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1rem;
+    }
+    .data-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .data-info {
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--terminal-dim);
+      opacity: 0.6;
+    }
+
+    /* Footer override for portal */
+    .portal-body .footer { background: var(--terminal-surface); border-top: 1px solid var(--terminal-border); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .portal-tabs { padding: 0 1rem; overflow-x: auto; }
+      .portal-tab { padding: 0.75rem 1rem; white-space: nowrap; font-size: 0.75rem; }
+      .portal-content { padding: 1.5rem 1rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .evidence-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="portal-body">
+
+  <nav class="nav portal-nav">
+    <div class="nav-inner">
+      <div class="nav-logo"><a href="index.html">Mørkefjord</a></div>
+      <div class="nav-links">
+        <a href="index.html" class="en">Home</a><a href="index.html" class="no">Hjem</a>
+        <a href="services.html" class="en">Services</a><a href="services.html" class="no">Tjenester</a>
+        <a href="portal.html" style="color:var(--terminal-accent)!important">Portal</a>
+        <div class="lang-toggle">
+          <button data-lang="en">EN</button>
+          <button data-lang="no">NO</button>
+        </div>
+      </div>
+      <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <div class="portal-header">
+    <div class="container">
+      <h1>Grønnvik Politistasjon</h1>
+      <div class="portal-title">
+        <span class="en">Investigation Portal</span>
+        <span class="no">Etterforskningsportalen</span>
+      </div>
+      <div class="portal-status">
+        <span class="dot"></span>
+        <span class="en">System active — Local session</span>
+        <span class="no">System aktivt — Lokal økt</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETUP SCREEN (no profile yet) -->
+  <div id="setupScreen" class="setup-screen" style="display:none">
+    <h2>
+      <span class="en">Create Your Profile</span>
+      <span class="no">Opprett din profil</span>
+    </h2>
+    <p>
+      <span class="en">Register as an investigator to access the case management system.</span>
+      <span class="no">Registrer deg som etterforsker for å få tilgang til sakshåndteringssystemet.</span>
+    </p>
+    <div class="form-group">
+      <label>
+        <span class="en">Detective Name</span>
+        <span class="no">Detektivnavn</span>
+      </label>
+      <input type="text" id="setupName" class="form-input" placeholder="Alex Hagen">
+    </div>
+    <div class="form-group">
+      <label>
+        <span class="en">Rank / Title</span>
+        <span class="no">Rang / Tittel</span>
+      </label>
+      <input type="text" id="setupRank" class="form-input" placeholder="Detective, Grønnvik Police">
+    </div>
+    <div class="form-group">
+      <label>
+        <span class="en">Personal Notes (optional)</span>
+        <span class="no">Personlige notater (valgfritt)</span>
+      </label>
+      <textarea id="setupBio" class="form-input" placeholder="Background, motivation, approach to the case..."></textarea>
+    </div>
+    <button class="btn-portal" onclick="createProfile()">
+      <span class="en">Activate Profile</span>
+      <span class="no">Aktiver profil</span>
+    </button>
+  </div>
+
+  <!-- MAIN PORTAL (has profile) -->
+  <div id="mainPortal" style="display:none">
+    <div class="portal-tabs">
+      <button class="portal-tab active" data-panel="profile">
+        <span class="en">Profile</span>
+        <span class="no">Profil</span>
+      </button>
+      <button class="portal-tab" data-panel="notes">
+        <span class="en">Case Notes</span>
+        <span class="no">Saksnotater</span>
+      </button>
+      <button class="portal-tab" data-panel="evidence">
+        <span class="en">Evidence Board</span>
+        <span class="no">Bevistavle</span>
+      </button>
+    </div>
+
+    <div class="portal-content">
+
+      <!-- PROFILE PANEL -->
+      <div class="portal-panel active" id="panel-profile">
+        <div class="profile-card">
+          <div class="profile-badge" id="profileBadge"></div>
+          <div class="profile-name" id="profileName"></div>
+          <div class="profile-rank" id="profileRank"></div>
+          <div class="profile-bio" id="profileBio"></div>
+          <div class="profile-actions">
+            <button class="btn-portal-outline btn-sm" onclick="editProfile()">
+              <span class="en">Edit Profile</span>
+              <span class="no">Rediger profil</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Edit form (hidden) -->
+        <div id="editProfileForm" class="note-form">
+          <h3>
+            <span class="en">Edit Profile</span>
+            <span class="no">Rediger profil</span>
+          </h3>
+          <div class="form-group">
+            <label><span class="en">Detective Name</span><span class="no">Detektivnavn</span></label>
+            <input type="text" id="editName" class="form-input">
+          </div>
+          <div class="form-group">
+            <label><span class="en">Rank / Title</span><span class="no">Rang / Tittel</span></label>
+            <input type="text" id="editRank" class="form-input">
+          </div>
+          <div class="form-group">
+            <label><span class="en">Personal Notes</span><span class="no">Personlige notater</span></label>
+            <textarea id="editBio" class="form-input"></textarea>
+          </div>
+          <div class="form-actions">
+            <button class="btn-portal btn-sm" onclick="saveProfile()">
+              <span class="en">Save</span><span class="no">Lagre</span>
+            </button>
+            <button class="btn-portal-outline btn-sm" onclick="cancelEdit()">
+              <span class="en">Cancel</span><span class="no">Avbryt</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Data management -->
+        <div class="data-section">
+          <h3>
+            <span class="en">Case File Management</span>
+            <span class="no">Saksfilbehandling</span>
+          </h3>
+          <div class="data-actions">
+            <button class="btn-portal-outline btn-sm" onclick="exportData()">
+              <span class="en">Export Case File</span>
+              <span class="no">Eksporter saksfil</span>
+            </button>
+            <label class="btn-portal-outline btn-sm" style="cursor:pointer">
+              <span class="en">Import Case File</span>
+              <span class="no">Importer saksfil</span>
+              <input type="file" accept=".json" onchange="importData(event)" style="display:none">
+            </label>
+            <button class="btn-portal-outline btn-sm btn-danger" onclick="resetData()">
+              <span class="en">Reset All Data</span>
+              <span class="no">Slett alle data</span>
+            </button>
+          </div>
+          <p class="data-info">
+            <span class="en">All data is stored locally in your browser. Use Export to save a backup you can import on any device.</span>
+            <span class="no">Alle data lagres lokalt i nettleseren din. Bruk Eksporter for å lagre en sikkerhetskopi du kan importere på hvilken som helst enhet.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- NOTES PANEL -->
+      <div class="portal-panel" id="panel-notes">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+          <h2 style="color:var(--terminal-text);font-size:1.3rem;margin:0">
+            <span class="en">Case Notes</span>
+            <span class="no">Saksnotater</span>
+          </h2>
+          <button class="btn-portal btn-sm" onclick="toggleNoteForm()">
+            <span class="en">+ New Note</span>
+            <span class="no">+ Ny notat</span>
+          </button>
+        </div>
+
+        <div id="noteForm" class="note-form">
+          <h3>
+            <span class="en">New Note</span>
+            <span class="no">Nytt notat</span>
+          </h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label><span class="en">Title</span><span class="no">Tittel</span></label>
+              <input type="text" id="noteTitle" class="form-input" placeholder="Observation, lead, question...">
+            </div>
+            <div class="form-group">
+              <label><span class="en">Scene / Act</span><span class="no">Scene / Akt</span></label>
+              <select id="noteScene" class="form-input">
+                <option value="">—</option>
+                <option value="Act I — Scene 1">Act I — Scene 1: Alex's Office</option>
+                <option value="Act I — Scene 2">Act I — Scene 2: Kari</option>
+                <option value="Act I — Scene 3">Act I — Scene 3: Emma's Studio</option>
+                <option value="Act I — Scene 4">Act I — Scene 4: Jonas</option>
+                <option value="Act II">Act II</option>
+                <option value="Act III">Act III</option>
+                <option value="Act IV">Act IV</option>
+                <option value="General">General</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label><span class="en">Content</span><span class="no">Innhold</span></label>
+            <textarea id="noteContent" class="form-input" placeholder="What did you notice? What doesn't add up?"></textarea>
+          </div>
+          <div class="form-actions">
+            <button class="btn-portal btn-sm" onclick="saveNote()">
+              <span class="en">Save Note</span><span class="no">Lagre notat</span>
+            </button>
+            <button class="btn-portal-outline btn-sm" onclick="toggleNoteForm()">
+              <span class="en">Cancel</span><span class="no">Avbryt</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="notesList" class="notes-list"></div>
+        <div id="notesEmpty" class="empty-state" style="display:none">
+          <h3>
+            <span class="en">No notes yet</span>
+            <span class="no">Ingen notater ennå</span>
+          </h3>
+          <p>
+            <span class="en">Start documenting your investigation. Every detail could matter.</span>
+            <span class="no">Begynn å dokumentere etterforskningen din. Hver detalj kan ha betydning.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- EVIDENCE PANEL -->
+      <div class="portal-panel" id="panel-evidence">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+          <h2 style="color:var(--terminal-text);font-size:1.3rem;margin:0">
+            <span class="en">Evidence Board</span>
+            <span class="no">Bevistavle</span>
+          </h2>
+          <button class="btn-portal btn-sm" onclick="toggleEvidenceForm()">
+            <span class="en">+ Log Evidence</span>
+            <span class="no">+ Registrer bevis</span>
+          </button>
+        </div>
+
+        <div id="evidenceForm" class="note-form">
+          <h3>
+            <span class="en">Log Evidence</span>
+            <span class="no">Registrer bevis</span>
+          </h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label><span class="en">Item Name</span><span class="no">Gjenstandsnavn</span></label>
+              <input type="text" id="evidenceName" class="form-input" placeholder="Deformed maps, Voss case file...">
+            </div>
+            <div class="form-group">
+              <label><span class="en">Type</span><span class="no">Type</span></label>
+              <select id="evidenceType" class="form-input">
+                <option value="Document">Document</option>
+                <option value="Physical">Physical Evidence</option>
+                <option value="Testimony">Testimony</option>
+                <option value="Digital">Digital / Data</option>
+                <option value="Location">Location</option>
+                <option value="Connection">Connection / Link</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label><span class="en">Description / Significance</span><span class="no">Beskrivelse / Betydning</span></label>
+            <textarea id="evidenceDesc" class="form-input" placeholder="What is this? Why does it matter?"></textarea>
+          </div>
+          <div class="form-group">
+            <label><span class="en">Linked to (scene, person, event)</span><span class="no">Knyttet til (scene, person, hendelse)</span></label>
+            <input type="text" id="evidenceLinked" class="form-input" placeholder="Emma, Act I Scene 3, AION...">
+          </div>
+          <div class="form-actions">
+            <button class="btn-portal btn-sm" onclick="saveEvidence()">
+              <span class="en">Log Entry</span><span class="no">Registrer</span>
+            </button>
+            <button class="btn-portal-outline btn-sm" onclick="toggleEvidenceForm()">
+              <span class="en">Cancel</span><span class="no">Avbryt</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="evidenceGrid" class="evidence-grid"></div>
+        <div id="evidenceEmpty" class="empty-state" style="display:none">
+          <h3>
+            <span class="en">No evidence logged</span>
+            <span class="no">Ingen bevis registrert</span>
+          </h3>
+          <p>
+            <span class="en">Track documents, objects, testimonies, and connections as you uncover them.</span>
+            <span class="no">Spor dokumenter, gjenstander, vitnemål og sammenhenger etter hvert som du avdekker dem.</span>
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border:none;padding:0">
+        <p>© 2026 Mørkefjord Kommune</p>
+        <p class="footer-disclaimer">
+          <span class="en">Mørkefjord is a fictional island from the indie game Beneath Mørkefjord.</span>
+          <span class="no">Mørkefjord er en fiktiv øy fra indiespillet Beneath Mørkefjord.</span>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    /* ===== PORTAL LOGIC ===== */
+    const STORAGE_KEY = 'mf-portal';
+
+    function getData() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
+      } catch { return null; }
+    }
+
+    function setData(data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function generateBadge() {
+      const num = Math.floor(1000 + Math.random() * 9000);
+      return `GRP-${num}`;
+    }
+
+    function formatDate(iso) {
+      const d = new Date(iso);
+      return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) +
+        ' ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // --- Init ---
+    function init() {
+      const data = getData();
+      if (!data || !data.profile) {
+        document.getElementById('setupScreen').style.display = 'block';
+        document.getElementById('mainPortal').style.display = 'none';
+      } else {
+        document.getElementById('setupScreen').style.display = 'none';
+        document.getElementById('mainPortal').style.display = 'block';
+        renderProfile(data.profile);
+        renderNotes(data.notes || []);
+        renderEvidence(data.evidence || []);
+      }
+    }
+
+    // --- Profile ---
+    function createProfile() {
+      const name = document.getElementById('setupName').value.trim();
+      const rank = document.getElementById('setupRank').value.trim();
+      const bio = document.getElementById('setupBio').value.trim();
+      if (!name) { document.getElementById('setupName').focus(); return; }
+      const data = {
+        profile: { name, rank: rank || 'Detective', bio, badge: generateBadge(), created: new Date().toISOString() },
+        notes: [],
+        evidence: []
+      };
+      setData(data);
+      init();
+    }
+
+    function renderProfile(p) {
+      document.getElementById('profileBadge').textContent = `BADGE ${p.badge}`;
+      document.getElementById('profileName').textContent = p.name;
+      document.getElementById('profileRank').textContent = p.rank;
+      document.getElementById('profileBio').textContent = p.bio || '—';
+    }
+
+    function editProfile() {
+      const data = getData();
+      document.getElementById('editName').value = data.profile.name;
+      document.getElementById('editRank').value = data.profile.rank;
+      document.getElementById('editBio').value = data.profile.bio;
+      document.getElementById('editProfileForm').classList.add('open');
+    }
+
+    function saveProfile() {
+      const data = getData();
+      data.profile.name = document.getElementById('editName').value.trim() || data.profile.name;
+      data.profile.rank = document.getElementById('editRank').value.trim() || data.profile.rank;
+      data.profile.bio = document.getElementById('editBio').value.trim();
+      setData(data);
+      renderProfile(data.profile);
+      document.getElementById('editProfileForm').classList.remove('open');
+    }
+
+    function cancelEdit() {
+      document.getElementById('editProfileForm').classList.remove('open');
+    }
+
+    // --- Notes ---
+    function toggleNoteForm() {
+      document.getElementById('noteForm').classList.toggle('open');
+    }
+
+    function saveNote(editId) {
+      const data = getData();
+      const title = document.getElementById('noteTitle').value.trim();
+      const content = document.getElementById('noteContent').value.trim();
+      const scene = document.getElementById('noteScene').value;
+      if (!title || !content) return;
+
+      if (editId) {
+        const note = data.notes.find(n => n.id === editId);
+        if (note) { note.title = title; note.content = content; note.scene = scene; note.edited = new Date().toISOString(); }
+      } else {
+        data.notes.unshift({
+          id: Date.now().toString(36),
+          title, content, scene,
+          created: new Date().toISOString()
+        });
+      }
+      setData(data);
+      renderNotes(data.notes);
+      document.getElementById('noteTitle').value = '';
+      document.getElementById('noteContent').value = '';
+      document.getElementById('noteScene').value = '';
+      document.getElementById('noteForm').classList.remove('open');
+    }
+
+    function deleteNote(id) {
+      const data = getData();
+      data.notes = data.notes.filter(n => n.id !== id);
+      setData(data);
+      renderNotes(data.notes);
+    }
+
+    function renderNotes(notes) {
+      const list = document.getElementById('notesList');
+      const empty = document.getElementById('notesEmpty');
+      if (!notes.length) { list.innerHTML = ''; empty.style.display = 'block'; return; }
+      empty.style.display = 'none';
+      list.innerHTML = notes.map(n => `
+        <div class="note-card">
+          <div class="note-header">
+            <span class="note-title">${esc(n.title)}</span>
+            <span class="note-date">${formatDate(n.created)}</span>
+          </div>
+          ${n.scene ? `<span class="note-scene">${esc(n.scene)}</span>` : ''}
+          <div class="note-body">${esc(n.content)}</div>
+          <div class="note-actions">
+            <button class="btn-ghost delete" onclick="deleteNote('${n.id}')">Delete</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- Evidence ---
+    function toggleEvidenceForm() {
+      document.getElementById('evidenceForm').classList.toggle('open');
+    }
+
+    function saveEvidence() {
+      const data = getData();
+      const name = document.getElementById('evidenceName').value.trim();
+      const type = document.getElementById('evidenceType').value;
+      const desc = document.getElementById('evidenceDesc').value.trim();
+      const linked = document.getElementById('evidenceLinked').value.trim();
+      if (!name) return;
+
+      data.evidence.unshift({
+        id: Date.now().toString(36),
+        name, type, desc, linked,
+        created: new Date().toISOString()
+      });
+      setData(data);
+      renderEvidence(data.evidence);
+      document.getElementById('evidenceName').value = '';
+      document.getElementById('evidenceDesc').value = '';
+      document.getElementById('evidenceLinked').value = '';
+      document.getElementById('evidenceForm').classList.remove('open');
+    }
+
+    function deleteEvidence(id) {
+      const data = getData();
+      data.evidence = data.evidence.filter(e => e.id !== id);
+      setData(data);
+      renderEvidence(data.evidence);
+    }
+
+    function renderEvidence(evidence) {
+      const grid = document.getElementById('evidenceGrid');
+      const empty = document.getElementById('evidenceEmpty');
+      if (!evidence.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+      empty.style.display = 'none';
+      grid.innerHTML = evidence.map(e => `
+        <div class="evidence-card">
+          <div class="evidence-type">${esc(e.type)}</div>
+          <h4>${esc(e.name)}</h4>
+          <p>${esc(e.desc)}</p>
+          ${e.linked ? `<div class="evidence-linked">→ ${esc(e.linked)}</div>` : ''}
+          <div class="note-actions">
+            <span class="note-date">${formatDate(e.created)}</span>
+            <button class="btn-ghost delete" onclick="deleteEvidence('${e.id}')">Delete</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- Tabs ---
+    document.querySelectorAll('.portal-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.portal-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.portal-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(`panel-${tab.dataset.panel}`).classList.add('active');
+      });
+    });
+
+    // --- Export / Import ---
+    function exportData() {
+      const data = getData();
+      if (!data) return;
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `morkefjord-casefile-${data.profile.badge}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (imported.profile && imported.profile.name) {
+            if (confirm('This will replace all current data. Continue?')) {
+              setData(imported);
+              init();
+            }
+          } else {
+            alert('Invalid case file.');
+          }
+        } catch { alert('Could not read file.'); }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetData() {
+      if (confirm('This will permanently delete your profile, notes, and evidence. Continue?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        init();
+      }
+    }
+
+    // --- Utility ---
+    function esc(str) {
+      const d = document.createElement('div');
+      d.textContent = str || '';
+      return d.innerHTML;
+    }
+
+    // --- Start ---
+    init();
+  </script>
+</body>
+</html>
