@@ -32,8 +32,9 @@
 }
 
 /* --- LANGUAGE TOGGLE --- */
-html.lang-en .no { display: none !important; }
-html.lang-no .en { display: none !important; }
+html.lang-en .no, html.lang-en .it { display: none !important; }
+html.lang-no .en, html.lang-no .it { display: none !important; }
+html.lang-it .en, html.lang-it .no { display: none !important; }
 
 /* --- BASE --- */
 html { scroll-behavior: smooth; font-size: 17px; }
