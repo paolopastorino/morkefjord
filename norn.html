@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" class="lang-en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>NORN — Mørkefjord Kommune</title><link rel="stylesheet" href="css/styles.css">
+<style>
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+  .stat-card { text-align: center; padding: 1.5rem 1rem; background: var(--white); border: 1px solid var(--border); border-radius: 6px; }
+  .stat-number { font-family: var(--font-display); font-size: 2.2rem; color: var(--fjord); line-height: 1; }
+  .stat-label { font-size: 0.8rem; color: var(--slate-light); margin-top: 0.5rem; line-height: 1.3; }
+  .section-alt .stat-card { background: var(--white); }
+  .person-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+  .person-card { padding: 1.5rem; border: 1px solid var(--border); border-radius: 6px; background: var(--white); }
+  .person-card h3 { font-family: var(--font-body); font-weight: 500; font-size: 1rem; color: var(--fjord); margin-bottom: 0.15rem; }
+  .person-role { font-size: 0.82rem; color: var(--teal); margin-bottom: 0.75rem; }
+  .person-card p { font-size: 0.9rem; color: var(--slate); line-height: 1.6; }
+  .person-memorial { border-left: 3px solid var(--teal); }
+  .procedure-box { background: var(--ice); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; margin-top: 1rem; }
+  .procedure-box h4 { font-family: var(--font-body); font-weight: 500; font-size: 0.95rem; color: var(--fjord); margin-bottom: 0.75rem; }
+  .procedure-box p { font-size: 0.9rem; color: var(--slate); margin-bottom: 0.5rem; }
+  .device-section { margin-bottom: 2.5rem; }
+  .device-section h3 { font-size: 1.3rem; margin-bottom: 0.75rem; }
+  .device-tag { display: inline-block; padding: 0.2rem 0.7rem; background: rgba(59,142,141,0.1); color: var(--teal); border-radius: 3px; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.75rem; }
+</style>
+</head>
+<body>
+  <nav class="nav"><div class="nav-inner"><div class="nav-logo"><a href="index.html">Mørkefjord</a></div><div class="nav-links"><a href="index.html" class="en">Home</a><a href="index.html" class="no">Hjem</a><a href="index.html" class="it">Home</a><a href="about.html" class="en">About</a><a href="about.html" class="no">Om oss</a><a href="about.html" class="it">Chi siamo</a><a href="cities.html" class="en">Cities</a><a href="cities.html" class="no">Byer</a><a href="cities.html" class="it">Città</a><a href="norn.html">NORN</a><a href="tourism.html" class="en">Tourism</a><a href="tourism.html" class="no">Turisme</a><a href="tourism.html" class="it">Turismo</a><a href="culture.html" class="en">Culture</a><a href="culture.html" class="no">Kultur</a><a href="culture.html" class="it">Cultura</a><a href="economy.html" class="en">Economy</a><a href="economy.html" class="no">Økonomi</a><a href="economy.html" class="it">Economia</a><a href="services.html" class="en">Services</a><a href="services.html" class="no">Tjenester</a><a href="services.html" class="it">Servizi</a><div class="lang-toggle"><button data-lang="en">EN</button><button data-lang="no">NO</button><button data-lang="it">IT</button></div></div><button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button></div></nav>
+
+  <section class="hero-sub"><div class="hero-bg" style="background:linear-gradient(160deg,#0F2440 0%,#1B3A5C 40%,#2D3748 70%,#3B8E8D 100%)"></div><h1>NORN<br><span style="font-size:0.45em;font-family:var(--font-body);font-weight:300;letter-spacing:0.08em;text-transform:uppercase;opacity:0.7">Neural Operations &amp; Resource Network</span></h1></section>
+
+  <!-- WHAT IS NORN -->
+  <section class="section"><div class="container">
+    <div class="section-divider fade-in"></div>
+    <h2 class="fade-in"><span class="en">What is NORN</span><span class="no">Hva er NORN</span><span class="it">Cos'è NORN</span></h2>
+    <div class="city-content fade-in">
+      <p><span class="en">NORN (Neural Operations &amp; Resource Network) is the integrated artificial intelligence system that manages the core infrastructure and public services of Mørkefjord. Developed by NørdTech and operational since 2021, NORN represents the most advanced pilot project in the world for AI-integrated civic governance. In five years of uninterrupted operation, NORN has transformed Mørkefjord into one of the most efficient and connected communities in Scandinavia.</span><span class="no">NORN (Neural Operations &amp; Resource Network) er det integrerte kunstig intelligens-systemet som forvalter kjerneinfrastrukturen og de offentlige tjenestene på Mørkefjord. Utviklet av NørdTech og operativt siden 2021, representerer NORN det mest avanserte pilotprosjektet i verden for AI-integrert offentlig forvaltning. I fem år med uavbrutt drift har NORN forvandlet Mørkefjord til et av de mest effektive og tilkoblede samfunnene i Skandinavia.</span><span class="it">NORN (Neural Operations &amp; Resource Network) è il sistema integrato di intelligenza artificiale che gestisce le infrastrutture e i servizi pubblici di Mørkefjord. Sviluppato da NørdTech e operativo dal 2021, NORN rappresenta il più avanzato progetto pilota al mondo per la governance civica integrata tramite IA. In cinque anni di operatività ininterrotta, NORN ha trasformato Mørkefjord in una delle comunità più efficienti e connesse della Scandinavia.</span></p>
+      <p><span class="en">NORN was created by Dr. Emma Voss, neuroscientist and co-founder of NørdTech, whose pioneering research in adaptive neural networks made the project possible. Today, NORN operates under the direction of CEO Dr. Isak Ravn, with senior systems engineer Jonas Berg responsible for ongoing infrastructure development and maintenance.</span><span class="no">NORN ble skapt av Dr. Emma Voss, nevroviter og medgründer av NørdTech, hvis banebrytende forskning innen adaptive nevrale nettverk gjorde prosjektet mulig. I dag opererer NORN under ledelse av administrerende direktør Dr. Isak Ravn, med senioringeniør Jonas Berg ansvarlig for løpende infrastrukturutvikling og vedlikehold.</span><span class="it">NORN è stato creato dalla Dott.ssa Emma Voss, neuroscienziata e co-fondatrice di NørdTech, la cui ricerca pionieristica sulle reti neurali adattive ha reso possibile il progetto. Oggi NORN opera sotto la direzione del CEO Dott. Isak Ravn, con l'ingegnere senior Jonas Berg responsabile dello sviluppo e della manutenzione dell'infrastruttura.</span></p>
+    </div>
+  </div></section>
+
+  <!-- WHAT NORN MANAGES -->
+  <section class="section section-alt"><div class="container">
+    <div class="section-divider fade-in"></div>
+    <h2 class="fade-in"><span class="en">Integrated Services</span><span class="no">Integrerte tjenester</span><span class="it">Servizi integrati</span></h2>
+    <div class="card-grid">
+      <div class="card fade-in"><div class="card-img" style="background:linear-gradient(135deg,#C0392B,#8B2020)"></div><div class="card-body"><h3><span class="en">Healthcare</span><span class="no">Helse</span><span class="it">Sanità</span></h3><p><span class="en">Real-time vital sign monitoring via BioChip. Predictive diagnostics. Automated resource allocation at Mørkefjord Sykehus. Emergency response coordination.</span><span class="no">Sanntids overvåking av vitale tegn via BioChip. Prediktiv diagnostikk. Automatisert ressursallokering ved Mørkefjord sykehus. Koordinering av akuttrespons.</span><span class="it">Monitoraggio dei parametri vitali in tempo reale tramite BioChip. Diagnostica predittiva. Allocazione automatica delle risorse al Mørkefjord Sykehus. Coordinamento della risposta alle emergenze.</span></p></div></div>
+      <div class="card fade-in"><div class="card-img" style="background:linear-gradient(135deg,#27AE60,#1E7A45)"></div><div class="card-body"><h3><span class="en">Energy</span><span class="no">Energi</span><span class="it">Energia</span></h3><p><span class="en">Island-wide power grid management. Wind, tidal and diesel backup mix. Predictive optimisation of domestic consumption. Smart grid balancing across all three cities.</span><span class="no">Forvaltning av øyas strømnett. Vind-, tidevann- og dieselreservemiks. Prediktiv optimalisering av husholdningsforbruk. Smart nettbalansering på tvers av alle tre byer.</span><span class="it">Gestione della rete elettrica dell'isola. Mix eolico, mareomotrice e diesel di riserva. Ottimizzazione predittiva dei consumi domestici. Bilanciamento intelligente della rete tra le tre città.</span></p></div></div>
+      <div class="card fade-in"><div class="card-img" style="background:linear-gradient(135deg,#2C5A7C,#1B3A5C)"></div><div class="card-body"><h3><span class="en">Transport</span><span class="no">Transport</span><span class="it">Trasporti</span></h3><p><span class="en">Bus and ferry schedule coordination. Predictive vehicle maintenance. Real-time information via NeuralLens and NORN Connect app. Weather-adaptive routing.</span><span class="no">Koordinering av buss- og ferjeruter. Prediktivt kjøretøyvedlikehold. Sanntidsinformasjon via NeuralLens og NORN Connect-appen. Værbasert rutetilpasning.</span><span class="it">Coordinamento degli orari di autobus e traghetti. Manutenzione predittiva dei veicoli. Informazioni in tempo reale tramite NeuralLens e app NORN Connect. Percorsi adattivi al meteo.</span></p></div></div>
+      <div class="card fade-in"><div class="card-img" style="background:linear-gradient(135deg,#4A5568,#2D3748)"></div><div class="card-body"><h3><span class="en">Security</span><span class="no">Sikkerhet</span><span class="it">Sicurezza</span></h3><p><span class="en">Predictive analysis to support law enforcement. Environmental hazard monitoring: avalanches, sea conditions, wildfire risk. Civil alert coordination.</span><span class="no">Prediktiv analyse til støtte for politi. Miljørisikoovervåking: snøskred, sjøforhold, skogbrannrisiko. Koordinering av sivile varsler.</span><span class="it">Analisi predittiva a supporto delle forze dell'ordine. Monitoraggio dei rischi ambientali: valanghe, condizioni marine, rischio incendi. Coordinamento degli avvisi civili.</span></p></div></div>
+      <div class="card fade-in"><div class="card-img" style="background:linear-gradient(135deg,#3B8E8D,#2D6B6A)"></div><div class="card-body"><h3><span class="en">Communications</span><span class="no">Kommunikasjon</span><span class="it">Comunicazioni</span></h3><p><span class="en">Island-wide communication network. Guaranteed connectivity in every settlement including Sølvær. Integration with BioChip and NeuralLens for personal communications.</span><span class="no">Øydekkende kommunikasjonsnettverk. Garantert tilkobling i hver bosetting, inkludert Sølvær. Integrasjon med BioChip og NeuralLens for personlig kommunikasjon.</span><span class="it">Rete di comunicazione su tutta l'isola. Connettività garantita in ogni insediamento, inclusa Sølvær. Integrazione con BioChip e NeuralLens per comunicazioni personali.</span></p></div></div>
+      <div class="card fade-in"><div class="card-img" style="background:linear-gradient(135deg,#8B6E4A,#5C3A1B)"></div><div class="card-body"><h3><span class="en">Civic Services</span><span class="no">Innbyggertjenester</span><span class="it">Servizi civici</span></h3><p><span class="en">Digital identity, payments, public service access, healthcare bookings, fishing permits, school enrolment. All through the BioChip ecosystem.</span><span class="no">Digital identitet, betalinger, tilgang til offentlige tjenester, helsebestillinger, fisketillatelser, skoleinnmelding. Alt gjennom BioChip-økosystemet.</span><span class="it">Identità digitale, pagamenti, accesso ai servizi pubblici, prenotazioni sanitarie, permessi di pesca, iscrizioni scolastiche. Tutto attraverso l'ecosistema BioChip.</span></p></div></div>
+    </div>
+  </div></section>
+
+  <!-- DEVICES -->
+  <section class="section"><div class="container">
+    <div class="section-divider fade-in"></div>
+    <h2 class="fade-in"><span class="en">Devices &amp; Access</span><span class="no">Enheter og tilgang</span><span class="it">Dispositivi e accesso</span></h2>
+
+    <div class="device-section fade-in">
+      <span class="device-tag">BioChip</span>
+      <h3>BioChip</h3>
+      <div class="city-content">
+        <p><span class="en">A subcutaneous micro-implant, positioned at the wrist. Developed by NørdTech. Functions as digital identity, payment instrument, health monitor, and primary interface with all NORN-managed services. Communicates via low-frequency signal with the island's network infrastructure. Currently adopted by 95% of residents. The BioChip is not mandatory, but is required for full access to most public and private services on the island.</span><span class="no">Et subkutant mikroimplantat, plassert ved håndleddet. Utviklet av NørdTech. Fungerer som digital identitet, betalingsinstrument, helsemonitor og primærgrensesnitt med alle NORN-administrerte tjenester. Kommuniserer via lavfrekvenssignal med øyas nettverksinfrastruktur. For tiden brukt av 95% av innbyggerne. BioChip er ikke obligatorisk, men er nødvendig for full tilgang til de fleste offentlige og private tjenester på øya.</span><span class="it">Microimpianto sottocutaneo, posizionato al polso. Sviluppato da NørdTech. Funziona come identità digitale, strumento di pagamento, monitor sanitario e interfaccia primaria con tutti i servizi gestiti da NORN. Comunica tramite segnale a bassa frequenza con l'infrastruttura di rete dell'isola. Attualmente adottato dal 95% dei residenti. Il BioChip non è obbligatorio, ma è necessario per l'accesso completo alla maggior parte dei servizi pubblici e privati dell'isola.</span></p>
+      </div>
+    </div>
+
+    <div class="device-section fade-in">
+      <span class="device-tag">NeuralLens</span>
+      <h3>NeuralLens</h3>
+      <div class="city-content">
+        <p><span class="en">Nanotechnology-based contact lenses. Communicate with the BioChip and the NORN network to provide a real-time informational overlay: notifications, navigation, service information, personal health data, and communications. Replaced every six months at Mørkefjord Sykehus. Free of charge for all registered residents.</span><span class="no">Nanoteknologibaserte kontaktlinser. Kommuniserer med BioChip og NORN-nettverket for å gi en sanntids informasjonsoverlegg: varsler, navigasjon, tjenesteinformasjon, personlige helsedata og kommunikasjon. Byttes hvert halvår ved Mørkefjord sykehus. Gratis for alle registrerte innbyggere.</span><span class="it">Lenti a contatto basate su nanotecnologie. Comunicano con il BioChip e la rete NORN per fornire un overlay informativo in tempo reale: notifiche, navigazione, informazioni sui servizi, dati sanitari personali e comunicazioni. Sostituite ogni sei mesi presso il Mørkefjord Sykehus. Gratuite per tutti i residenti registrati.</span></p>
+      </div>
+    </div>
+
+    <div class="device-section fade-in">
+      <span class="device-tag">App</span>
+      <h3>NORN Connect</h3>
+      <div class="city-content">
+        <p><span class="en">Application for traditional devices (smartphone, tablet, computer). Designed for residents who have not yet received the BioChip or who prefer a conventional interface. Provides access to civic services, transport schedules, health bookings, and communications. Functionality is reduced compared to the full BioChip + NeuralLens system.</span><span class="no">Applikasjon for tradisjonelle enheter (smarttelefon, nettbrett, datamaskin). Designet for innbyggere som ennå ikke har mottatt BioChip eller som foretrekker et konvensjonelt grensesnitt. Gir tilgang til innbyggertjenester, transportruter, helsebestillinger og kommunikasjon. Funksjonaliteten er redusert sammenlignet med det fullstendige BioChip + NeuralLens-systemet.</span><span class="it">Applicazione per dispositivi tradizionali (smartphone, tablet, computer). Progettata per i residenti che non hanno ancora ricevuto il BioChip o che preferiscono un'interfaccia convenzionale. Fornisce accesso ai servizi civici, orari dei trasporti, prenotazioni sanitarie e comunicazioni. Le funzionalità sono ridotte rispetto al sistema completo BioChip + NeuralLens.</span></p>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- HOW TO GET BIOCHIP -->
+  <section class="section section-alt"><div class="container">
+    <div class="section-divider fade-in"></div>
+    <h2 class="fade-in"><span class="en">How to Obtain the BioChip</span><span class="no">Hvordan få BioChip</span><span class="it">Come ottenere il BioChip</span></h2>
+    <div class="city-content fade-in">
+      <p><span class="en">All residents of Mørkefjord aged 16 and above are eligible to receive the BioChip. The procedure is performed at Mørkefjord Sykehus and is covered in full by the Kommune health plan.</span><span class="no">Alle innbyggere på Mørkefjord fra 16 år og oppover er berettiget til å motta BioChip. Prosedyren utføres ved Mørkefjord sykehus og dekkes fullt ut av kommunens helseplan.</span><span class="it">Tutti i residenti di Mørkefjord dai 16 anni in su possono ricevere il BioChip. La procedura viene eseguita presso il Mørkefjord Sykehus ed è interamente coperta dal piano sanitario del Comune.</span></p>
+    </div>
+    <div class="service-grid fade-in" style="margin-top:1.5rem">
+      <div class="procedure-box">
+        <h4><span class="en">Procedure</span><span class="no">Prosedyre</span><span class="it">Procedura</span></h4>
+        <p><span class="en">Outpatient implantation, duration approximately 15 minutes. Local anaesthesia. Immediate activation upon implantation. NeuralLens fitting included in the same appointment.</span><span class="no">Poliklinisk implantasjon, varighet ca. 15 minutter. Lokalbedøvelse. Umiddelbar aktivering ved implantasjon. NeuralLens-tilpasning inkludert i samme avtale.</span><span class="it">Impianto ambulatoriale, durata circa 15 minuti. Anestesia locale. Attivazione immediata all'impianto. Adattamento delle NeuralLens incluso nello stesso appuntamento.</span></p>
+      </div>
+      <div class="procedure-box">
+        <h4><span class="en">Booking</span><span class="no">Bestilling</span><span class="it">Prenotazione</span></h4>
+        <p><span class="en">Via NORN Connect app or in person at Mørkefjord Sykehus reception. Sessions available Tuesday and Thursday, 08:00–14:00. Average wait time: 5 working days.</span><span class="no">Via NORN Connect-appen eller personlig ved Mørkefjord sykehus resepsjon. Økter tilgjengelig tirsdag og torsdag, 08:00–14:00. Gjennomsnittlig ventetid: 5 arbeidsdager.</span><span class="it">Tramite app NORN Connect o di persona alla reception del Mørkefjord Sykehus. Sessioni disponibili martedì e giovedì, 08:00–14:00. Tempo di attesa medio: 5 giorni lavorativi.</span></p>
+      </div>
+      <div class="procedure-box">
+        <h4><span class="en">Exemptions</span><span class="no">Unntak</span><span class="it">Esenzioni</span></h4>
+        <p><span class="en">Exemptions may be requested for medical, professional, or personal reasons. Application forms are available at the Kommunehus or via NORN Connect. Exemption does not preclude access to basic services but limits available functionality. Current exemption holders: &lt;5% of resident population.</span><span class="no">Unntak kan søkes av medisinske, profesjonelle eller personlige grunner. Søknadsskjemaer er tilgjengelige ved Kommunehuset eller via NORN Connect. Unntak utelukker ikke tilgang til grunnleggende tjenester, men begrenser tilgjengelig funksjonalitet. Nåværende unntaksinnehavere: &lt;5% av innbyggerne.</span><span class="it">Le esenzioni possono essere richieste per ragioni mediche, professionali o personali. I moduli sono disponibili presso il Kommunehus o tramite NORN Connect. L'esenzione non preclude l'accesso ai servizi di base ma limita le funzionalità disponibili. Attuali titolari di esenzione: &lt;5% della popolazione residente.</span></p>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- STATS -->
+  <section class="section"><div class="container">
+    <div class="section-divider fade-in"></div>
+    <h2 class="fade-in"><span class="en">NORN in Numbers</span><span class="no">NORN i tall</span><span class="it">NORN in numeri</span></h2>
+    <div class="stat-grid fade-in">
+      <div class="stat-card"><div class="stat-number">5</div><div class="stat-label"><span class="en">years of continuous operation</span><span class="no">år med kontinuerlig drift</span><span class="it">anni di operatività continua</span></div></div>
+      <div class="stat-card"><div class="stat-number">98.7%</div><div class="stat-label"><span class="en">energy grid uptime</span><span class="no">oppetid strømnett</span><span class="it">uptime rete energetica</span></div></div>
+      <div class="stat-card"><div class="stat-number">43%</div><div class="stat-label"><span class="en">reduction in healthcare wait times</span><span class="no">reduksjon i helsekøer</span><span class="it">riduzione tempi di attesa sanitari</span></div></div>
+      <div class="stat-card"><div class="stat-number">62%</div><div class="stat-label"><span class="en">reduction in minor offences</span><span class="no">reduksjon i mindre lovbrudd</span><span class="it">riduzione dei reati minori</span></div></div>
+      <div class="stat-card"><div class="stat-number">95%</div><div class="stat-label"><span class="en">BioChip adoption rate</span><span class="no">BioChip-adopsjonsrate</span><span class="it">tasso di adozione BioChip</span></div></div>
+      <div class="stat-card"><div class="stat-number">17,300</div><div class="stat-label"><span class="en">residents served</span><span class="no">innbyggere betjent</span><span class="it">residenti serviti</span></div></div>
+      <div class="stat-card"><div class="stat-number">0</div><div class="stat-label"><span class="en">critical service interruptions</span><span class="no">kritiske tjenesteavbrudd</span><span class="it">interruzioni critiche di servizio</span></div></div>
+    </div>
+  </div></section>
+
+  <!-- PEOPLE -->
+  <section class="section section-alt"><div class="container">
+    <div class="section-divider fade-in"></div>
+    <h2 class="fade-in"><span class="en">The People Behind NORN</span><span class="no">Menneskene bak NORN</span><span class="it">Le persone dietro NORN</span></h2>
+    <div class="person-grid fade-in">
+      <div class="person-card person-memorial">
+        <h3>Dr. Emma Voss</h3>
+        <div class="person-role"><span class="en">Neuroscientist, Co-founder of NørdTech, Creator of NORN — 1991–2023</span><span class="no">Nevroviter, medgründer av NørdTech, skaper av NORN — 1991–2023</span><span class="it">Neuroscienziata, co-fondatrice di NørdTech, creatrice di NORN — 1991–2023</span></div>
+        <p><span class="en">Emma's pioneering research in adaptive neural networks and machine consciousness laid the foundation for everything NORN has become. Her vision of an intelligence that could learn, adapt, and serve an entire community drove the project from concept to reality. Emma passed away in 2023. Her memory guides the work of the NørdTech team every day.</span><span class="no">Emmas banebrytende forskning innen adaptive nevrale nettverk og maskinbevissthet la grunnlaget for alt NORN har blitt. Hennes visjon om en intelligens som kunne lære, tilpasse seg og tjene et helt samfunn drev prosjektet fra konsept til virkelighet. Emma gikk bort i 2023. Hennes minne veileder arbeidet til NørdTech-teamet hver dag.</span><span class="it">La ricerca pionieristica di Emma sulle reti neurali adattive e la coscienza artificiale ha posto le basi per tutto ciò che NORN è diventato. La sua visione di un'intelligenza capace di imparare, adattarsi e servire un'intera comunità ha portato il progetto dal concetto alla realtà. Emma è mancata nel 2023. La sua memoria guida il lavoro del team NørdTech ogni giorno.</span></p>
+      </div>
+      <div class="person-card">
+        <h3>Dr. Isak Ravn</h3>
+        <div class="person-role"><span class="en">CEO &amp; Co-founder, NørdTech</span><span class="no">Administrerende direktør og medgründer, NørdTech</span><span class="it">CEO e co-fondatore, NørdTech</span></div>
+        <p><span class="en">Under Isak's direction, the NORN pilot project in Mørkefjord has become the international reference for integrated AI governance. His leadership guides NørdTech's expansion strategy and the ongoing evaluation programme with the European Commission.</span><span class="no">Under Isaks ledelse har NORN-pilotprosjektet på Mørkefjord blitt den internasjonale referansen for integrert AI-forvaltning. Hans lederskap styrer NørdTechs ekspansjonsstrategi og det pågående evalueringsprogrammet med Europakommisjonen.</span><span class="it">Sotto la direzione di Isak, il progetto pilota NORN a Mørkefjord è diventato il riferimento internazionale per la governance integrata tramite IA. La sua leadership guida la strategia di espansione di NørdTech e il programma di valutazione in corso con la Commissione Europea.</span></p>
+      </div>
+      <div class="person-card">
+        <h3>Jonas Berg</h3>
+        <div class="person-role"><span class="en">Senior Systems Engineer, NørdTech</span><span class="no">Senioringeniør, NørdTech</span><span class="it">Ingegnere senior di sistema, NørdTech</span></div>
+        <p><span class="en">Jonas is responsible for the continuous development and maintenance of NORN's core infrastructure. A close collaborator of Dr. Voss since the earliest stages of the project, his deep understanding of the system's architecture ensures the reliability that Mørkefjord depends on.</span><span class="no">Jonas er ansvarlig for den kontinuerlige utviklingen og vedlikeholdet av NORNs kjerneinfrastruktur. En nær samarbeidspartner av Dr. Voss siden de tidligste stadiene av prosjektet, hans dype forståelse av systemets arkitektur sikrer den påliteligheten Mørkefjord er avhengig av.</span><span class="it">Jonas è responsabile dello sviluppo continuo e della manutenzione dell'infrastruttura di NORN. Stretto collaboratore della Dott.ssa Voss fin dalle prime fasi del progetto, la sua profonda conoscenza dell'architettura del sistema garantisce l'affidabilità da cui Mørkefjord dipende.</span></p>
+      </div>
+    </div>
+  </div></section>
+
+  <footer class="footer"><div class="container"><div class="footer-inner"><div><h4>Mørkefjord Kommune</h4><p><span class="en">Kommunehuset, Grønnvik<br>Mørkefjord, Norway</span><span class="no">Kommunehuset, Grønnvik<br>Mørkefjord, Norge</span><span class="it">Kommunehuset, Grønnvik<br>Mørkefjord, Norvegia</span><br>post@morkefjord.kommune.no</p></div><div><h4 class="en">Explore</h4><h4 class="no">Utforsk</h4><h4 class="it">Esplora</h4><ul class="footer-links"><li><a href="about.html"><span class="en">About</span><span class="no">Om oss</span><span class="it">Chi siamo</span></a></li><li><a href="cities.html"><span class="en">Cities</span><span class="no">Byer</span><span class="it">Città</span></a></li><li><a href="norn.html">NORN</a></li><li><a href="tourism.html"><span class="en">Tourism</span><span class="no">Turisme</span><span class="it">Turismo</span></a></li></ul></div><div><h4 class="en">Services</h4><h4 class="no">Tjenester</h4><h4 class="it">Servizi</h4><ul class="footer-links"><li><a href="culture.html"><span class="en">Culture</span><span class="no">Kultur</span><span class="it">Cultura</span></a></li><li><a href="economy.html"><span class="en">Economy</span><span class="no">Økonomi</span><span class="it">Economia</span></a></li><li><a href="services.html"><span class="en">Services</span><span class="no">Tjenester</span><span class="it">Servizi</span></a></li></ul></div></div><div class="footer-bottom"><p>© 2026 Mørkefjord Kommune</p><p class="footer-disclaimer"><a href="project.html" style="color:inherit;text-decoration:underline"><span class="en">Mørkefjord is a fictional island from the indie game Beneath Mørkefjord.</span><span class="no">Mørkefjord er en fiktiv øy fra indiespillet Beneath Mørkefjord.</span><span class="it">Mørkefjord è un'isola immaginaria dal videogioco indie Beneath Mørkefjord.</span></a></p></div></div></footer>
+  <script src="js/main.js"></script>
+</body></html>
